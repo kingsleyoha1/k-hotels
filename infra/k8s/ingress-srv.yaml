@@ -17,3 +17,11 @@ spec:
                 name: auth-srv
                 port:
                   number: 3000
+          - path: /api/hotels/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: hotels-srv
+                port:
+                  number: 3000
+                  

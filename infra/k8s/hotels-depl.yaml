@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotels-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hotels
+  template:
+    metadata:
+      labels:
+        app: hotels
+    spec:
+      containers:
+        - name: hotels
+          image: kingsley555/hotels
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              value: hotel 
+            - name: MONGO_URIH
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-urih
+                  key: MONGO_URIH
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hotels-srv
+spec:
+  selector:
+    app: hotels
+  ports:
+    - name: hotels
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

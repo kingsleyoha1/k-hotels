@@ -14,3 +14,12 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: kingsley555/hotels
+      context: hotels
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .        
+            
