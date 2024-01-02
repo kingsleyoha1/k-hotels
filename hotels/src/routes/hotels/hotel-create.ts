@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { requireAuth, validateRequest } from '@k-hotels/common';
-import { Hotels } from '../../models/hotel';
+import { requireAuth, validateRequest } from '@kingsley555/common-module-k-hotels';
+import { Hotel } from '../../models/hotel';
 import { natsWrapper } from '../../nats-wrapper';
 
 const router = express.Router();
@@ -17,7 +17,7 @@ router.post(
     async (req: Request, res: Response) => {
       const { name, location } = req.body;
       
-      const hotel = Hotels.build({ name, location, userId: req.currentUser!.id });
+      const hotel = Hotel.build({ name, location, userId: req.currentUser!.id });
       await hotel.save();
   
       res.status(201).send(hotel);

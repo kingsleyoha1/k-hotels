@@ -1,11 +1,14 @@
 import express, { Request, Response } from 'express';
-import { Rooms } from '../../models/hotel';
+import { Room } from '../../models/room';
 
 const router = express.Router();
 
-router.get('/api/rooms', async (req: Request, res: Response) => {
-    const rooms = await Rooms.find();
-    res.send(rooms);
+router.get('/api/hotels/rooms', async (req: Request, res: Response) => {
+  const room = await Room.find({
+    orderId: undefined,
+  });
+
+    res.send(room);
   });
 
   export { router as getRoomsRouter };

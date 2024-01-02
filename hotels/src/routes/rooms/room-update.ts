@@ -1,24 +1,51 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { Hotels, Rooms } from '../../models/hotel';
-import { requireAuth, validateRequest } from '@k-hotels/common';
+import { Room } from '../../models/room';
+import { natsWrapper } from '../../nats-wrapper';
+import {  validateRequest,
+  NotFoundError,
+  requireAuth,
+  NotAuthorizedError,
+  BadRequestError, } from '@kingsley555/common-module-k-hotels';
+  import { RoomUpdatedPublisher } from '../../events/publishers/room-updated-publisher';
+
 
 const router = express.Router();
 
 router.put(
-    '/api/rooms/:id',
+    '/api/hotels/room/:id',
     requireAuth,
     [
-      body('type').not().isEmpty().withMessage('Type is required'),
-      body('pricePerNight').isFloat({ gt: 0 }).withMessage('Price must be greater than 0')
+      body('price').isFloat({ gt: 0 }).withMessage('Price must be greater than 0'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-      const room = await Rooms.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      const room = await Room.findByIdAndUpdate(req.params.id, req.body, { new: true });
       if (!room) {
-        return res.status(404).send('Room not found');
+        throw new NotFoundError();
       }
-      res.send(room);
+      if (room.orderId) {
+      throw new BadRequestError('Cannot edit a reserved ticket');
+    }
+
+      if (room.userId !== req.currentUser!.id) {
+      throw new NotAuthorizedError();
+    }
+      
+       room.set({
+      title: req.body.title,
+      price: req.body.price,
+    });
+    await room.save();
+    new RoomUpdatedPublisher(natsWrapper.client).publish({
+      id: room.id,
+      title: room.title,
+      price: room.price,
+      userId: room.userId,
+      version: room.version,
+    });
+
+    res.send(room);
     }
   );
 

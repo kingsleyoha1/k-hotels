@@ -1,5 +1,5 @@
 import express from 'express';
-import { currentUser } from '@k-hotels/common';
+import { currentUser } from '@kingsley555/common-module-k-hotels';
 
 const router = express.Router();
 

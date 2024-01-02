@@ -17,7 +17,7 @@
     ]
   },
   "dependencies": {
-    "@k-hotels/common": "^1.0.30",
+    "@kingsley555/common-module-k-hotels": "^1.0.2",
     "@types/cookie-session": "^2.0.48",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
