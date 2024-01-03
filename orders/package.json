@@ -18,10 +18,12 @@
   },
   "dependencies": {
     "@kingsley555/common-module-k-hotels": "^1.0.2",
+    "@types/amqplib": "^0.10.4",
     "@types/cookie-session": "^2.0.48",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/mongoose": "^5.11.97",
+    "amqplib": "^0.10.3",
     "cookie-session": "^2.0.0",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",

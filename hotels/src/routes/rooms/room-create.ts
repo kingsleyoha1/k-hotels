@@ -3,6 +3,9 @@ import { body } from 'express-validator';
 import { Hotel } from '../../models/hotel';
 import { Room } from '../../models/room';
 import { RoomCreatedPublisher } from '../../events/publishers/room-created-publisher';
+import { RoomCreatedPublish } from '../../events/publishers/room-create-pub';
+import { rabbitMQWrapper } from '../../rabbitmq-wrapper';
+
 import { natsWrapper } from '../../nats-wrapper';
 
 
@@ -30,15 +33,30 @@ router.post(
       const room = Room.build(req.body);
       await room.save();
       hotel?.room?.push(room);
-      await hotel.save();      
+      await hotel.save();  
+      
+        // Make sure RabbitMQ channel is available
+    if (!rabbitMQWrapper.channel) {
+      throw new Error('Cannot access RabbitMQ channel');
+    }    
 
-      new RoomCreatedPublisher(natsWrapper.client).publish({
-        id: room.id,
-        title: room.title,
-        price: room.price,
-        userId: room.userId,
-        version: room.version,
-      });
+    // Create and use the RabbitMQ-based publisher
+    const publisher = new RoomCreatedPublish();
+    await publisher.publish({
+      id: room.id,
+      title: room.title,
+      price: room.price,
+      userId: room.userId,
+      version: room.version,
+    });
+
+      // new RoomCreatedPublisher(natsWrapper.client).publish({
+      //   id: room.id,
+      //   title: room.title,
+      //   price: room.price,
+      //   userId: room.userId,
+      //   version: room.version,
+      // });
   
       res.status(201).send(room);
     }

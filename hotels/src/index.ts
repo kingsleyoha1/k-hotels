@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import { app } from './app';
+import { rabbitMQWrapper } from './rabbitmq-wrapper';
 import { natsWrapper } from './nats-wrapper';
+
 import { OrderCreatedListener } from './events/listeners/order-created-listener';
 import { OrderCancelledListener } from './events/listeners/order-cancelled-listener';
 
@@ -23,7 +25,14 @@ const start = async () => {
     throw new Error('NATS_CLUSTER_ID must be defined');
   }
 
+  if (!process.env.RABBITMQ_URL) {
+    throw new Error('RABBITMQ_URL must be defined');
+  }
+
   try {
+
+    await rabbitMQWrapper.connect(process.env.RABBITMQ_URL);
+    console.log('Connected to RABBITMQ');
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID,
       process.env.NATS_CLIENT_ID,

@@ -16,6 +16,8 @@ spec:
         - name: hotels
           image: kingsley555/hotels
           env:
+            - name: RABBITMQ_URL
+              value: 'amqp://rabbitmq-srv:5672'
             - name: NATS_CLIENT_ID
               valueFrom:
                 fieldRef:

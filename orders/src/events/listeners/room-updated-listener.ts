@@ -14,8 +14,8 @@ export class RoomUpdatedListener extends Listener<RoomUpdatedEvent> {
       throw new Error('Room not found');
     }
 
-    const { title, price } = data;
-    room.set({ title, price });
+    const {title, price } = data;
+    room.set({title, price });
     await room.save();
 
     msg.ack();

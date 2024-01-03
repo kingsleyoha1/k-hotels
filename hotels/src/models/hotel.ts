@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 import { RoomDoc } from './room';
 
 
@@ -16,7 +15,6 @@ interface HotelDoc extends mongoose.Document {
   location: string;
   userId: string,
   room?: RoomDoc[];
-  version: number;
 }
 
 interface HotelModel extends mongoose.Model<HotelDoc> {
@@ -39,8 +37,6 @@ const hotelSchema = new mongoose.Schema({
     },
   },
 });
-hotelSchema.set('versionKey', 'version');
-hotelSchema.plugin(updateIfCurrentPlugin);
 
 hotelSchema.statics.build = (attrs: HotelAttrs) => {
   return new Hotel(attrs);

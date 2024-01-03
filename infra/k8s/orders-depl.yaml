@@ -16,6 +16,8 @@ spec:
         - name: orders
           image: kingsley555/orders
           env:
+            - name: RABBITMQ_URL
+              value: 'amqp://rabbitmq-srv:5672'
             - name: NATS_CLIENT_ID
               valueFrom:
                 fieldRef:
