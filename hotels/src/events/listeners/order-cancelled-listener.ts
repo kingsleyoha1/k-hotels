@@ -1,14 +1,15 @@
+import { ConsumeMessage } from 'amqplib';
 import { Listener, OrderCancelledEvent, Subjects } from '@kingsley555/common-module-k-hotels';
-import { Message } from 'node-nats-streaming';
 import { queueGroupName } from './queue-group-name';
 import { Room } from '../../models/room';
 import { RoomUpdatedPublisher } from '../publishers/room-updated-publisher';
+import { rabbitMQWrapper } from '../../rabbitmq-wrapper'; // Adjust the import path
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
   subject: Subjects.OrderCancelled = Subjects.OrderCancelled;
   queueGroupName = queueGroupName;
 
-  async onMessage(data: OrderCancelledEvent['data'], msg: Message) {
+  async onMessage(data: OrderCancelledEvent['data'], msg: ConsumeMessage) {
     const room = await Room.findById(data.room.id);
 
     if (!room) {
@@ -17,15 +18,21 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
 
     room.set({ orderId: undefined });
     await room.save();
-    await new RoomUpdatedPublisher(this.client).publish({
+
+    if (!rabbitMQWrapper.channel) {
+      throw new Error('Cannot access RabbitMQ channel');
+    }
+
+    const publisher = new RoomUpdatedPublisher();
+    await publisher.publish({
       id: room.id,
-      orderId: room.orderId,
-      userId: room.userId,
       price: room.price,
       title: room.title,
+      userId: room.userId,
+      orderId: room.orderId,
       version: room.version,
     });
 
-    msg.ack();
+    this.channel.ack(msg);
   }
 }

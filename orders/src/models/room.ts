@@ -13,6 +13,7 @@ export interface RoomDoc extends mongoose.Document {
   price: number;
   version: number;
   isReserved(): Promise<boolean>;
+  orderId?: string;
 }
 
 interface RoomModel extends mongoose.Model<RoomDoc> {
@@ -33,6 +34,10 @@ const roomSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
+    },
+    orderId: {
+      type: String,
+    
     },
   },
   {

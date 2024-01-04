@@ -6,7 +6,7 @@ import {
 } from '@kingsley555/common-module-k-hotels';
 import { Order, OrderStatus } from '../models/order';
 import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
-import { natsWrapper } from '../nats-wrapper';
+import { rabbitMQWrapper } from '../rabbitmq-wrapper';
 
 const router = express.Router();
 
@@ -28,7 +28,13 @@ router.delete(
     await order.save();
 
     // publishing an event saying this was cancelled!
-    new OrderCancelledPublisher(natsWrapper.client).publish({
+
+
+    if (!rabbitMQWrapper.channel) {
+      throw new Error('Cannot access RabbitMQ channel');
+    } 
+    const publisher = new OrderCancelledPublisher();
+    await publisher.publish({
       id: order.id,
       version: order.version,
       room: {

@@ -1,37 +1,37 @@
-import { Message } from 'node-nats-streaming';
+import { ConsumeMessage } from 'amqplib';
 import { Listener, OrderCreatedEvent, Subjects } from '@kingsley555/common-module-k-hotels';
 import { queueGroupName } from './queue-group-name';
 import { Room } from '../../models/room';
 import { RoomUpdatedPublisher } from '../publishers/room-updated-publisher';
+import { rabbitMQWrapper } from '../../rabbitmq-wrapper'; // Adjust the import path
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
   queueGroupName = queueGroupName;
 
-  async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
-    // Find the room that the order is reserving
-    const room = await Room.findById(data.room.id);
+  async onMessage(data: OrderCreatedEvent['data'], msg: ConsumeMessage) {
+    const room = await Room.findById(data.room.id);    
 
-    // If no room, throw error
     if (!room) {
       throw new Error('Room not found');
     }
-
-    // Mark the room as being reserved by setting its orderId property
     room.set({ orderId: data.id });
 
-    // Save the room
     await room.save();
-    await new RoomUpdatedPublisher(this.client).publish({
-      id: room.id,
-      price: room.price,
-      title: room.title,
-      userId: room.userId,
-      orderId: room.orderId,
-      version: room.version,
-    });
+    
+    if (!rabbitMQWrapper.channel) {
+      throw new Error('Cannot access RabbitMQ channel');
+    }
 
-    // ack the message
-    msg.ack();
+    const publisher = new RoomUpdatedPublisher();
+    await publisher.publish({
+      id: room.id,
+      title: room.title,
+      price: room.price,
+      userId: room.userId,
+      version: room.version,
+      orderId: room.orderId
+    });
+    this.channel.ack(msg);
   }
 }

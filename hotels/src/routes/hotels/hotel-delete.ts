@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
 import { requireAuth, validateRequest } from '@kingsley555/common-module-k-hotels';
 import { Hotel } from '../../models/hotel';
 

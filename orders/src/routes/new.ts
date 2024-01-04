@@ -11,7 +11,8 @@ import { body } from 'express-validator';
 import { Room } from '../models/room';
 import { Order } from '../models/order';
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
-import { natsWrapper } from '../nats-wrapper';
+import { rabbitMQWrapper } from '../rabbitmq-wrapper';
+
 
 const router = express.Router();
 
@@ -29,6 +30,7 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
+    
     const { roomId } = req.body;
 
     // Find the room the user is trying to order in the database
@@ -56,8 +58,11 @@ router.post(
     });
     await order.save();
 
-    // Publish an event saying that an order was created
-    new OrderCreatedPublisher(natsWrapper.client).publish({
+    if (!rabbitMQWrapper.channel) {
+      throw new Error('Cannot access RabbitMQ channel');
+    } 
+    const publisher = new OrderCreatedPublisher();
+    await publisher.publish({
       id: order.id,
       version: order.version,
       status: order.status,

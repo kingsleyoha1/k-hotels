@@ -3,13 +3,7 @@ import { body } from 'express-validator';
 import { Hotel } from '../../models/hotel';
 import { Room } from '../../models/room';
 import { RoomCreatedPublisher } from '../../events/publishers/room-created-publisher';
-import { RoomCreatedPublish } from '../../events/publishers/room-create-pub';
 import { rabbitMQWrapper } from '../../rabbitmq-wrapper';
-
-import { natsWrapper } from '../../nats-wrapper';
-
-
-
 import { requireAuth, validateRequest } from '@kingsley555/common-module-k-hotels';
 
 const router = express.Router();
@@ -41,7 +35,7 @@ router.post(
     }    
 
     // Create and use the RabbitMQ-based publisher
-    const publisher = new RoomCreatedPublish();
+    const publisher = new RoomCreatedPublisher();
     await publisher.publish({
       id: room.id,
       title: room.title,
@@ -49,15 +43,6 @@ router.post(
       userId: room.userId,
       version: room.version,
     });
-
-      // new RoomCreatedPublisher(natsWrapper.client).publish({
-      //   id: room.id,
-      //   title: room.title,
-      //   price: room.price,
-      //   userId: room.userId,
-      //   version: room.version,
-      // });
-  
       res.status(201).send(room);
     }
   );

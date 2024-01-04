@@ -18,14 +18,6 @@ spec:
           env:
             - name: RABBITMQ_URL
               value: 'amqp://rabbitmq-srv:5672'
-            - name: NATS_CLIENT_ID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: NATS_URL
-              value: 'http://nats-srv:4222'
-            - name: NATS_CLUSTER_ID
-              value: hotel
             - name: MONGO_URI_ORDERS
               valueFrom:
                 secretKeyRef:

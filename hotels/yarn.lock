@@ -561,11 +561,13 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@kingsley555/common-module-k-hotels@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@kingsley555/common-module-k-hotels/-/common-module-k-hotels-1.0.2.tgz#3c60b26f0842e38647cdbbbfc36e30b78bc21212"
-  integrity sha512-oVdE8DNrkUkrj2NsPbGeoIJ3NVW5Hje5DqWq9zbcOY8F+NbCJ8AyNs5WsVFSaSJ0eooggzcLn5KNzIA9LPztqg==
+"@kingsley555/common-module-k-hotels@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@kingsley555/common-module-k-hotels/-/common-module-k-hotels-1.0.4.tgz#f6f400f4f1edc115e45f9a09bf28de7f8fc43950"
+  integrity sha512-YoFI4tRcJ+ObWbkzU1/eWsgJjsPUyWnmB+w9IW6yTGlCTg9H0UVdUH+FPnN3QxUM0I/oz4l7irTmzuChjaRoWg==
   dependencies:
+    "@types/amqplib" "^0.10.4"
+    amqplib "^0.10.3"
     del-cli "^5.1.0"
     typescript "^5.3.3"
 

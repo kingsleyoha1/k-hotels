@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
 import { rabbitMQWrapper } from './rabbitmq-wrapper';
-import { natsWrapper } from './nats-wrapper';
-
 import { OrderCreatedListener } from './events/listeners/order-created-listener';
 import { OrderCancelledListener } from './events/listeners/order-cancelled-listener';
 
@@ -15,16 +13,7 @@ const start = async () => {
   if (!process.env.MONGO_URIH) {
     throw new Error('MONGO_URI_1 must be defined');
   }
-  if (!process.env.NATS_CLIENT_ID) {
-    throw new Error('NATS_CLIENT_ID must be defined');
-  }
-  if (!process.env.NATS_URL) {
-    throw new Error('NATS_URL must be defined');
-  }
-  if (!process.env.NATS_CLUSTER_ID) {
-    throw new Error('NATS_CLUSTER_ID must be defined');
-  }
-
+ 
   if (!process.env.RABBITMQ_URL) {
     throw new Error('RABBITMQ_URL must be defined');
   }
@@ -33,20 +22,12 @@ const start = async () => {
 
     await rabbitMQWrapper.connect(process.env.RABBITMQ_URL);
     console.log('Connected to RABBITMQ');
-    await natsWrapper.connect(
-      process.env.NATS_CLUSTER_ID,
-      process.env.NATS_CLIENT_ID,
-      process.env.NATS_URL
-    );
-    natsWrapper.client.on('close', () => {
-      console.log('NATS connection closed!');
-      process.exit();
-    });
-    process.on('SIGINT', () => natsWrapper.client.close());
-    process.on('SIGTERM', () => natsWrapper.client.close());
 
-    new OrderCreatedListener(natsWrapper.client).listen();
-    new OrderCancelledListener(natsWrapper.client).listen();
+    const orderCreatedListener = new OrderCreatedListener(rabbitMQWrapper.channel);
+    const orderCancelledListener = new OrderCancelledListener(rabbitMQWrapper.channel);
+
+    orderCreatedListener.listen();
+    orderCancelledListener.listen();
 
     await mongoose.connect(process.env.MONGO_URIH);
     console.log('Connected to MongoDb');
