@@ -4,6 +4,7 @@ class RabbitMQWrapper {
   private _connection?: amqp.Connection;
   private _channel?: amqp.Channel;
   private readonly initialConnectionDelay = 16000;
+  private readonly reconnectDelay = 5000; // Reconnect after 5 seconds
 
   get channel() {
     if (!this._channel) {
@@ -21,13 +22,19 @@ class RabbitMQWrapper {
       this._channel = await this._connection.createChannel();
 
       this._connection.on('close', () => {
-        console.log('RabbitMQ connection closed!');
+        console.log('RabbitMQ connection closed! Attempting to reconnect...');
+        this.reconnect(url);
       });
+
 
     } catch (err) {
       console.error('Failed to connect to RabbitMQ:', err);
-      throw err; 
+      this.reconnect(url);
     }
+  }
+
+  async reconnect(url: string) {
+    setTimeout(() => this.connect(url), this.reconnectDelay);
   }
 
   async close() {

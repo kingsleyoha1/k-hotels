@@ -3,7 +3,7 @@ import { Listener, OrderCreatedEvent, Subjects } from '@kingsley555/common-modul
 import { queueGroupName } from './queue-group-name';
 import { Room } from '../../models/room';
 import { RoomUpdatedPublisher } from '../publishers/room-updated-publisher';
-import { rabbitMQWrapper } from '../../rabbitmq-wrapper'; // Adjust the import path
+import { rabbitMQWrapper } from '../../rabbitmq-wrapper';
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;

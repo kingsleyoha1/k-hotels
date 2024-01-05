@@ -3,7 +3,7 @@ import { Listener, OrderCancelledEvent, Subjects } from '@kingsley555/common-mod
 import { queueGroupName } from './queue-group-name';
 import { Room } from '../../models/room';
 import { RoomUpdatedPublisher } from '../publishers/room-updated-publisher';
-import { rabbitMQWrapper } from '../../rabbitmq-wrapper'; // Adjust the import path
+import { rabbitMQWrapper } from '../../rabbitmq-wrapper';
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
   subject: Subjects.OrderCancelled = Subjects.OrderCancelled;

@@ -3,7 +3,7 @@ import { app } from './app';
 import { rabbitMQWrapper } from './rabbitmq-wrapper';
 import { RoomCreatedListener } from './events/listeners/room-created-listener';
 import { RoomUpdatedListener } from './events/listeners/room-updated-listener';
-// import { ExpirationCompleteListener } from './events/listeners/expiration-complete-listener';
+import { ExpirationCompleteListener } from './events/listeners/expiration-complete-listener';
 // import { PaymentCreatedListener } from './events/listeners/payment-created-listener';
 
 
@@ -33,9 +33,10 @@ const start = async () => {
     const roomUpdatedListen = new RoomUpdatedListener(rabbitMQWrapper.channel);
 
     const roomCreatedListen = new RoomCreatedListener(rabbitMQWrapper.channel);
-    // new ExpirationCompleteListener(natsWrapper.client).listen();
+   const expirationCompleteListener = new ExpirationCompleteListener(rabbitMQWrapper.channel);
     roomUpdatedListen.listen();
     roomCreatedListen.listen();
+    expirationCompleteListener.listen();
    
     // new PaymentCreatedListener(natsWrapper.client).listen();
 
