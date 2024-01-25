@@ -40,6 +40,9 @@ app.use(getRoomRouter);
 app.use(updateRoomRouter);
 app.use(deleteRoomRouter);
 
+
+app.use('/uploads', express.static('uploads'));
+
 app.all('*', async (req, res) => {
   throw new NotFoundError();
 });

@@ -4,7 +4,7 @@ import { Hotel } from '../../models/hotel';
 import { Room } from '../../models/room';
 import { RoomCreatedPublisher } from '../../events/publishers/room-created-publisher';
 import { rabbitMQWrapper } from '../../rabbitmq-wrapper';
-import { requireAuth, validateRequest } from '@kingsley555/common-module-k-hotels';
+import { requireAuth, validateRequest, BadRequestError } from '@kingsley555/common-module-k-hotels';
 
 const router = express.Router();
 

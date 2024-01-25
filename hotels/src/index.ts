@@ -10,8 +10,8 @@ const start = async () => {
   if (!process.env.JWT_KEY) {
     throw new Error('JWT_KEY must be defined');
   }
-  if (!process.env.MONGO_URIH) {
-    throw new Error('MONGO_URI_1 must be defined');
+  if (!process.env.MONGO_URI_HOTEL) {
+    throw new Error('MONGO_URI_HOTEL must be defined');
   }
  
   if (!process.env.RABBITMQ_URL) {
@@ -29,7 +29,7 @@ const start = async () => {
     orderCreatedListener.listen();
     orderCancelledListener.listen();
 
-    await mongoose.connect(process.env.MONGO_URIH);
+    await mongoose.connect(process.env.MONGO_URI_HOTEL);
     console.log('Connected to MongoDb');
   } catch (err) {
     console.error(err);

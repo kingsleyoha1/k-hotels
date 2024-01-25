@@ -18,11 +18,11 @@ spec:
           env:
             - name: RABBITMQ_URL
               value: 'amqp://rabbitmq-srv:5672'
-            - name: MONGO_URIH
+            - name: MONGO_URI_HOTEL
               valueFrom:
                 secretKeyRef:
-                  name: mongo-urih
-                  key: MONGO_URIH
+                  name: mongo-uri-hotel
+                  key: MONGO_URI_HOTEL
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:

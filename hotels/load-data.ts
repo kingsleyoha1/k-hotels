@@ -2,12 +2,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const axios = require('axios');
  
 const cookie =
-  'session=eyJqd3QiOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcFpDSTZJalkxT0dSbE1qQmpZakpqWXpCa1pEVmxPRGRtWWpkbFpDSXNJbVZ0WVdsc0lqb2lhMmx1WjNOc1pYa3daMEJuYldGcGJDNWpiMjBpTENKcFlYUWlPakUzTURReE1UVXlPVFo5LjZfMTIyck5pUjhyZ3NfTUttdTBZZk5XclNETVhGeWQwdDJOVjBycl9aZXcifQ==';
+  'session=eyJqd3QiOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcFpDSTZJalkxWWpJellXRTNOVGcxTXpFNE5EZGpNVE14T1dVNU5pSXNJbVZ0WVdsc0lqb2lhMmx1WjNOc1pYa3daMEJuYldGcGJDNWpiMjBpTENKcFlYUWlPakUzTURZeE56a3lORGg5Lm83ejQ4UG14UDVEMElUWGVQcktvbEY4ZHlsME0yRHNhZWxfNlM4WHp6SFUifQ==';
  
 const doRequest = async () => {
   const { data } = await axios.post(
-    `https://k-hotels.dev/api/hotels/65956f3472bcca0d3187277e/room`,
-    { title: 'nice room', price: 70, userId : '658de20cb2cc0dd5e87fb7ed' },
+    `https://k-hotels.dev/api/hotels/65b23b22c0b3ced226556c92/room`,
+    { title: 'nice room', price: 70, userId : '65b23aa758531847c1319e96' },
     {
       headers: { cookie },
     }
@@ -15,7 +15,7 @@ const doRequest = async () => {
   
    await axios.put(
     `https://k-hotels.dev/api/hotels/room/${data.id}`,
-    { title: 'nice room', price: 80, userId : '658de20cb2cc0dd5e87fb7ed' },
+    { title: 'nice room', price: 80, userId : '65b23aa758531847c1319e96' },
     {
       headers: { cookie },
     }
@@ -23,7 +23,7 @@ const doRequest = async () => {
  
    axios.put(
     `https://k-hotels.dev/api/hotels/room/${data.id}`,
-    { title: 'nice room', price: 90, userId : '658de20cb2cc0dd5e87fb7ed' },
+    { title: 'nice room', price: 90, userId : '65b23aa758531847c1319e96' },
     {
       headers: { cookie },
     }

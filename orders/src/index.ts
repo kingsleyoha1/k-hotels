@@ -4,7 +4,7 @@ import { rabbitMQWrapper } from './rabbitmq-wrapper';
 import { RoomCreatedListener } from './events/listeners/room-created-listener';
 import { RoomUpdatedListener } from './events/listeners/room-updated-listener';
 import { ExpirationCompleteListener } from './events/listeners/expiration-complete-listener';
-// import { PaymentCreatedListener } from './events/listeners/payment-created-listener';
+import { PaymentCreatedListener } from './events/listeners/payment-created-listener';
 
 
 const start = async () => {
@@ -38,7 +38,8 @@ const start = async () => {
     roomCreatedListen.listen();
     expirationCompleteListener.listen();
    
-    // new PaymentCreatedListener(natsWrapper.client).listen();
+    const paymentCreated = new PaymentCreatedListener(rabbitMQWrapper.channel);
+    paymentCreated.listen();
 
     await mongoose.connect(process.env.MONGO_URI_ORDERS);
     console.log('Connected to MongoDb');
