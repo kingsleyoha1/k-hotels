@@ -6,18 +6,16 @@ interface RoomAttrs {
     title: string;
     price: number;
     userId: string;
-    // roomNumber: number;
-    // type: string;
-    // amenities: string[];
+    hotelId: string; 
+    image?: string,
   }
   
   export interface RoomDoc extends mongoose.Document {
     title: string;
     price: number;
     userId: string;
-    // roomNumber: number;
-    // type: string;
-    // amenities: string[];
+    hotelId: string; 
+    image?: string,
     version: number;
     orderId?: string;
   }
@@ -31,10 +29,8 @@ interface RoomModel extends mongoose.Model<RoomDoc> {
   const roomSchema = new mongoose.Schema({
     title: { type: String, required: true },
     price: { type: Number, required: true },
-    userId: { type: String, required: true },
-    // roomNumber: { type: Number, required: true },
-    // type: { type: String, required: true },
-    // amenities: [String],
+    hotelId: { type: String, required: true },
+    image: { type: String, required: true },
     orderId: {type: String },
   }, {
     toJSON: {

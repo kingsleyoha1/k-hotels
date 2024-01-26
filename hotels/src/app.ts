@@ -18,6 +18,9 @@ import { deleteRoomRouter } from './routes/rooms/room-delete';
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
+app.use(express.json({ limit: '5mb' })); 
+app.use(express.urlencoded({ limit: '5mb', extended: true }));
+
 app.use(
   cookieSession({
     signed: false,

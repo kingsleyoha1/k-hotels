@@ -14,14 +14,6 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: kingsley555/hotels-client
-      context: client
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '**/*.js'
-            dest: .
     - image: kingsley555/hotels
       context: hotels
       docker:
@@ -53,5 +45,13 @@ build:
       sync:
         manual:
           - src: 'src/**/*.ts'
-            dest: .                           
+            dest: .
+    - image: kingsley555/hotels-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .                               
             

@@ -7,6 +7,7 @@ interface HotelAttrs {
   name: string;
   location: string;
   userId: string,
+  image?: string,
   room?: RoomDoc[];
 }
 
@@ -14,6 +15,7 @@ interface HotelDoc extends mongoose.Document {
   name: string;
   location: string;
   userId: string,
+  image?: string,
   room?: RoomDoc[];
 }
 
@@ -25,6 +27,7 @@ interface HotelModel extends mongoose.Model<HotelDoc> {
 const hotelSchema = new mongoose.Schema({
   name: { type: String, required: true },
   location: { type: String, required: true },
+  image: { type: String, required: true },
   room: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Room'

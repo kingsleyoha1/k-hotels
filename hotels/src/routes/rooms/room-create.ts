@@ -5,6 +5,7 @@ import { Room } from '../../models/room';
 import { RoomCreatedPublisher } from '../../events/publishers/room-created-publisher';
 import { rabbitMQWrapper } from '../../rabbitmq-wrapper';
 import { requireAuth, validateRequest, BadRequestError } from '@kingsley555/common-module-k-hotels';
+import Cloudinary  from '../../ultils/cloudinary';
 
 const router = express.Router();
 
@@ -14,22 +15,36 @@ router.post(
     [
       body('title').not().isEmpty().withMessage('Room number is required'),
       body('price').isFloat({ gt: 0 }).withMessage('Price must be greater than 0'),
-      // body('roomNumber').not().isEmpty().withMessage('Room number is required'),
-      // body('type').not().isEmpty().withMessage('Room type is required'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
+      const { hotelId } = req.params;
       const hotel = await Hotel.findById(req.params.hotelId);
       if (!hotel) {
         return res.status(404).send('Hotel not found');
       }
-  
-      const room = Room.build(req.body);
+
+      const { title, price, image } = req.body;
+      let imageUrl;
+
+      if (image) {
+        const uploadedResponse = await Cloudinary.uploader.upload(image, {
+          upload_preset: "kHotels",
+        });
+        imageUrl = uploadedResponse.url;
+      }
+
+      const room = Room.build({
+        title,
+        price,
+        userId: req.currentUser!.id,
+        hotelId, 
+        image: imageUrl, 
+      });
       await room.save();
       hotel?.room?.push(room);
       await hotel.save();  
-      
-        // Make sure RabbitMQ channel is available
+   
     if (!rabbitMQWrapper.channel) {
       throw new Error('Cannot access RabbitMQ channel');
     }    

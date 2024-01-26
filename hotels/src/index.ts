@@ -18,6 +18,16 @@ const start = async () => {
     throw new Error('RABBITMQ_URL must be defined');
   }
 
+  if (!process.env.CLOUDINARY_NAME) {
+    throw new Error('CLOUDINARY_NAME must be defined');
+  }
+  if (!process.env.CLOUDINARY_API_KEY) {
+    throw new Error('CLOUDINARY_API_KEY must be defined');
+  }
+  if (!process.env.CLOUDINARY_API_SECRET) {
+    throw new Error('CLOUDINARY_API_SECRET must be defined');
+  }
+
   try {
 
     await rabbitMQWrapper.connect(process.env.RABBITMQ_URL);
