@@ -30,7 +30,7 @@ interface RoomModel extends mongoose.Model<RoomDoc> {
     title: { type: String, required: true },
     price: { type: Number, required: true },
     hotelId: { type: String, required: true },
-    image: { type: String, required: true },
+    image: { type: String, required: false },
     orderId: {type: String },
   }, {
     toJSON: {

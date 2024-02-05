@@ -1,9 +1,11 @@
+import atatus from "atatus-nodejs/start";
 import mongoose from 'mongoose';
 import { app } from './app';
 import { rabbitMQWrapper } from './rabbitmq-wrapper';
 import { OrderCreatedListener } from './events/listeners/order-created-listener';
 import { OrderCancelledListener } from './events/listeners/order-cancelled-listener';
 
+atatus.startMonitor();
 const start = async () => {
   console.log('Starting...');
 

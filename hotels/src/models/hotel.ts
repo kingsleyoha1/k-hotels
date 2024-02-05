@@ -27,7 +27,7 @@ interface HotelModel extends mongoose.Model<HotelDoc> {
 const hotelSchema = new mongoose.Schema({
   name: { type: String, required: true },
   location: { type: String, required: true },
-  image: { type: String, required: true },
+  image: { type: String, required: false },
   room: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Room'

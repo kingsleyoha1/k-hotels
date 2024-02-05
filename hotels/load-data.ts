@@ -6,8 +6,8 @@ const cookie =
  
 const doRequest = async () => {
   const { data } = await axios.post(
-    `https://k-hotels.dev/api/hotels/65b23b22c0b3ced226556c92/room`,
-    { title: 'nice room', price: 70, userId : '65b23aa758531847c1319e96' },
+    `https://k-hotels.dev/api/hotels/65b4b3e98878f400ab3ba075/room`,
+    { title: 'A King size room with master bed', price: 820, userId : '65b23aa758531847c1319e96' },
     {
       headers: { cookie },
     }
@@ -15,7 +15,7 @@ const doRequest = async () => {
   
    await axios.put(
     `https://k-hotels.dev/api/hotels/room/${data.id}`,
-    { title: 'nice room', price: 80, userId : '65b23aa758531847c1319e96' },
+    { title: 'A King size room with master bed', price: 740, userId : '65b23aa758531847c1319e96' },
     {
       headers: { cookie },
     }
@@ -23,7 +23,7 @@ const doRequest = async () => {
  
    axios.put(
     `https://k-hotels.dev/api/hotels/room/${data.id}`,
-    { title: 'nice room', price: 90, userId : '65b23aa758531847c1319e96' },
+    { title: 'A King size room with master bed', price: 690, userId : '65b23aa758531847c1319e96' },
     {
       headers: { cookie },
     }
