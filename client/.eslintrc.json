@@ -1,0 +1,259 @@
+{
+    "env": { "browser": true, "es2022": true },
+    "extends": [
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "airbnb",
+      "plugin:tailwindcss/recommended"
+    ],
+    "globals": {},
+    "parserOptions": {
+      "ecmaFeatures": { "jsx": true },
+      "ecmaVersion": 2022,
+      "sourceType": "module"
+    },
+    "plugins": [
+      "react",
+      "react-hooks",
+      "@typescript-eslint",
+      "unused-imports"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "*.ts",
+          "*.tsx"
+        ],
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+          "@typescript-eslint"
+        ],
+        "extends": [
+          "plugin:@typescript-eslint/eslint-recommended",
+          "plugin:@typescript-eslint/recommended"
+        ],
+        "rules": {
+          "@typescript-eslint/explicit-function-return-type": [
+            "warn"
+          ],
+          "@typescript-eslint/explicit-module-boundary-types": [
+            "error"
+          ],
+          "no-extra-semi": "error",
+          "valid-jsdoc": "off",
+          "no-autofocus": "off",
+          "semi": "off",
+          "@typescript-eslint/semi": [
+            "error"
+          ],
+          "@typescript-eslint/no-explicit-any": ["off"],
+          "react/react-in-jsx-scope": "off",
+          "no-unused-vars": "off",
+          "unused-imports/no-unused-imports": "error",
+          "unused-imports/no-unused-vars": [
+            "error",
+            { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+          ],
+          "@typescript-eslint/no-unused-vars": "off",
+          "@typescript-eslint/no-extra-semi": "error",
+          "@typescript-eslint/member-delimiter-style": [
+            "error",
+            {
+              "multiline": {
+                "delimiter": "comma",
+                "requireLast": true
+              },
+              "singleline": {
+                "delimiter": "comma",
+                "requireLast": false
+              }
+            }
+          ],
+          "quotes": [
+            "error",
+            "single"
+          ]
+        }
+      }
+    ],
+    "settings": {
+      "import/resolver": {
+        "alias": {
+          "extensions": [".js", ".jsx", ".ts", ".tsx", ".json", ".svg", ".webp", ".jpg", ".jpeg", ".png"]
+        }
+      }
+    },
+    "rules": {
+      "react-hooks/exhaustive-deps": "off",
+      "indent": [
+        "error",
+        4
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "no-warning-comments": "warn",
+      "no-alert": "error",
+      "no-else-return": "warn",
+      "no-empty-function": "warn",
+      "no-useless-constructor": "off",
+      "no-var": "warn",
+      "comma-dangle": ["error", {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+      }],
+      "arrow-spacing": ["error", {
+        "before": true,
+        "after": true
+      }],
+      "block-spacing": ["error", "always"],
+      "comma-spacing": ["error", { "before": false, "after": true }],
+      "func-call-spacing": ["error", "never"],
+      "no-multi-spaces": ["error", { "ignoreEOLComments": false }],
+      "no-multiple-empty-lines": [
+        "error",
+        { "max": 1 }
+      ],
+      "no-tabs": "error",
+      "no-trailing-spaces": "error",
+      "no-irregular-whitespace": "off",
+      "object-curly-spacing": ["warn", "always"],
+      "padding-line-between-statements": [
+        "error",
+        { "blankLine": "always", "prev": "*", "next": "return" },
+        { "blankLine": "always", "prev": "*", "next": "if" },
+        { "blankLine": "always", "prev": "if", "next": "*" },
+        { "blankLine": "always", "prev": "*", "next": "import" },
+        { "blankLine": "always", "prev": "import", "next": "*" },
+        { "blankLine": "never", "prev": "import", "next": "import" }
+      ],
+      "padded-blocks": ["error", { "blocks": "never" }],
+      "no-use-before-define": "off",
+      "tailwindcss/no-custom-classname": "off",
+      "react/react-in-jsx-scope": "off",
+      "react/forbid-prop-types": "off",
+      "react/require-default-props": "off",
+      "react/destructuring-assignment": "off",
+      "react/sort-comp": "off",
+      "react/prop-types": "off",
+      "react/no-unescaped-entities": "off",
+      "react/jsx-props-no-spreading": "off",
+      "react/jsx-curly-newline": ["error", { "multiline": "forbid", "singleline": "forbid" }],
+      "react/jsx-indent": [2, 4, { "checkAttributes": true, "indentLogicalExpressions": true }],
+      "react/jsx-indent-props": "off",
+      "react/jsx-one-expression-per-line": "off",
+      "react/jsx-no-useless-fragment": "off",
+      "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+      "react/no-array-index-key": "off",
+      "react/jsx-curly-spacing": ["error", { "when": "never", "children": true }],
+      "jsx-a11y/click-events-have-key-events": "off",
+      "jsx-a11y/label-has-associated-control": "off",
+      "jsx-a11y/control-has-associated-label": "off",
+      "jsx-a11y/no-static-element-interactions": "off",
+      "jsx-a11y/no-noninteractive-element-interactions": "off",
+      "jsx-a11y/mouse-events-have-key-events": "off",
+      "jsx-a11y/no-noninteractive-tabindex": "off",
+      "jsx-a11y/no-autofocus": "off",
+      "import/extensions": "off",
+      "import/first": "warn",
+      "import/newline-after-import": "off",
+      "import/no-extraneous-dependencies": "off",
+      "eol-last": "off",
+      "arrow-body-style": "off",
+      "no-bitwise": "off",
+      "no-restricted-globals": "off",
+      "no-param-reassign": "off",
+      "no-plusplus": "off",
+      "no-mixed-operators": "off",
+      "consistent-return": "off",
+      "no-unused-expressions": "off",
+      "no-unused-vars": "error",
+      "no-shadow": "off",
+      "max-len": ["error", { "code": 200 }],
+      "no-nested-ternary": "off",
+      "react-hooks/rules-of-hooks": "error",
+      "no-unsafe-optional-chaining": "off",
+      "function-paren-newline": ["error", "consistent"],
+      "default-param-last": "off",
+      "template-curly-spacing": ["error", "never"],
+      "@typescript-eslint/comma-spacing": "error",
+      "@typescript-eslint/func-call-spacing": "error",
+      "@typescript-eslint/keyword-spacing": "error",
+      "no-cond-assign": "off",
+      "import/no-mutable-exports": "off",
+      "@typescript-eslint/member-delimiter-style": [
+        "error",
+        {
+          "multiline": {
+            "delimiter": "semi",
+            "requireLast": true
+          },
+          "singleline": {
+            "delimiter": "comma",
+            "requireLast": false
+          }
+        }
+      ],
+      "@typescript-eslint/semi": ["error", "always"],
+      "@typescript-eslint/space-before-function-paren": ["error", {
+        "anonymous": "never",
+        "asyncArrow": "always",
+        "named": "never"
+      }],
+      "@typescript-eslint/space-infix-ops": "error",
+      "@typescript-eslint/type-annotation-spacing": "error",
+      "react/function-component-definition": [
+        2,
+        {
+          "namedComponents": ["function-expression", "arrow-function", "function-declaration"],
+          "unnamedComponents": ["function-expression", "arrow-function"]
+        }
+      ],
+      "sort-imports": [
+        "error",
+        {
+          "ignoreDeclarationSort": true,
+          "memberSyntaxSortOrder": ["multiple", "single", "none", "all"]
+        }
+      ],
+      "import/no-unresolved": [
+        2,
+        { "caseSensitive": false }
+      ],
+      "import/order": [
+        "error",
+        {
+          "groups": ["builtin", "external", "internal", ["parent", "sibling"]],
+          "pathGroups": [
+            {
+              "pattern": "r+(|eact|eact-dom|edux|eact-redux|)",
+              "group": "external",
+              "position": "before"
+            },
+            {
+              "pattern": "@+(**)",
+              "group": "parent",
+              "position": "before"
+            }
+          ],
+          "pathGroupsExcludedImportTypes": ["react", "react-dom", "redux", "react-redux"],
+          "alphabetize": {
+            "order": "asc"
+          }
+        }
+      ]
+    },
+    "ignorePatterns": [
+      "node_modules",
+      "public"
+    ]
+  }
+  

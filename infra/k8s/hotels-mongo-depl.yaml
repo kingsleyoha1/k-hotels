@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotels-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hotels-mongo
+  template:
+    metadata:
+      labels:
+        app: hotels-mongo
+    spec:
+      containers:
+      - name: hotels-mongo
+        image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hotels-mongo-srv
+spec:
+  selector:
+    app: hotels-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

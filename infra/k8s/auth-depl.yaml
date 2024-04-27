@@ -12,6 +12,10 @@ spec:
       labels:
         app: auth
     spec:
+      initContainers:
+        - name: wait-for-mongo
+          image: busybox
+          command: ['sh', '-c', 'until nc -z auth-mongo-srv 27017; do echo waiting for mongo; sleep 2; done']
       containers:
         - name: auth
           image: kingsley555/auth
@@ -19,12 +23,12 @@ spec:
             - name: MONGO_URI
               valueFrom:
                 secretKeyRef:
-                  name: mongo-uri
+                  name: hotels-secrets
                   key: MONGO_URI
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
-                  name: jwt-secret
+                  name: hotels-secrets
                   key: JWT_KEY
 ---
 apiVersion: v1

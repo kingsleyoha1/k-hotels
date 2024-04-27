@@ -12,36 +12,46 @@ spec:
       labels:
         app: hotels
     spec:
+      initContainers:
+        - name: wait-for-mongo
+          image: busybox
+          command: ['sh', '-c', 'until nc -z hotels-mongo-srv 27017; do echo waiting for mongo; sleep 2; done']
+        - name: wait-for-rabbitmq
+          image: busybox
+          command: ['sh', '-c', 'until nc -z rabbitmq-srv 5672; do echo waiting for rabbitmq; sleep 2; done']
       containers:
         - name: hotels
           image: kingsley555/hotels
           env:
-            - name: RABBITMQ_URL
-              value: 'amqp://rabbitmq-srv:5672'
             - name: MONGO_URI_HOTEL
               valueFrom:
                 secretKeyRef:
-                  name: mongo-uri-hotel
+                  name: hotels-secrets
                   key: MONGO_URI_HOTEL
+            - name: RABBITMQ_URL
+              valueFrom:
+                secretKeyRef:
+                  name: hotels-secrets
+                  key: RABBITMQ_URL
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
-                  name: jwt-secret
+                  name: hotels-secrets
                   key: JWT_KEY
             - name: CLOUDINARY_NAME
               valueFrom:
-                secretKeyRef:
-                  name: cloudinary-secret
+                configMapKeyRef:
+                  name: hotels-configmap
                   key: CLOUDINARY_NAME
             - name: CLOUDINARY_API_KEY
               valueFrom:
-                secretKeyRef:
-                  name: cloudinary-secret
+                configMapKeyRef:
+                  name: hotels-configmap
                   key: CLOUDINARY_API_KEY
             - name: CLOUDINARY_API_SECRET
               valueFrom:
-                secretKeyRef:
-                  name: cloudinary-secret
+                configMapKeyRef:
+                  name: hotels-configmap
                   key: CLOUDINARY_API_SECRET      
 ---
 apiVersion: v1
