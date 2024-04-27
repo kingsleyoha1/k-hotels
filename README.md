@@ -42,35 +42,35 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 
 4. Configuration
 Create a config folder inside the infra/k8s directory and add the following configurations:
+     ```bash
+     4.1 ConfigMap (configmap.yaml):
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: hotels-configmap
+      data:
+        CLOUDINARY_NAME: <your-cloudinary-name>
+        CLOUDINARY_API_KEY: <your-cloudinary-api-key>
+        CLOUDINARY_API_SECRET: <your-cloudinary-api-secret>
+        STRIPE_KEY: <your-stripe-key>
+      Replace placeholders with your Cloudinary and Stripe credentials.
+      4.2 Secrets (secret.yaml):
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: hotels-secrets
+      type: Opaque
+      data:
+        MONGO_URI: <base64-encoded-mongo-uri>
+        MONGO_URI_HOTEL: <base64-encoded-mongo-uri-hotel>
+        MONGO_URI_ORDERS: <base64-encoded-mongo-uri-orders>
+        MONGO_URI_PAYMENTS: <base64-encoded-mongo-uri-payments>
+        JWT_KEY: <base64-encoded-jwt-key>
+        RABBITMQ_URL: <base64-encoded-rabbitmq-url>
+        REDIS_HOST: <base64-encoded-redis-host>
+      Ensure all sensitive data is base64 encoded.
 
-4.1 ConfigMap (configmap.yaml):
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: hotels-configmap
-data:
-  CLOUDINARY_NAME: <your-cloudinary-name>
-  CLOUDINARY_API_KEY: <your-cloudinary-api-key>
-  CLOUDINARY_API_SECRET: <your-cloudinary-api-secret>
-  STRIPE_KEY: <your-stripe-key>
-Replace placeholders with your Cloudinary and Stripe credentials.
-4.2 Secrets (secret.yaml):
-apiVersion: v1
-kind: Secret
-metadata:
-  name: hotels-secrets
-type: Opaque
-data:
-  MONGO_URI: <base64-encoded-mongo-uri>
-  MONGO_URI_HOTEL: <base64-encoded-mongo-uri-hotel>
-  MONGO_URI_ORDERS: <base64-encoded-mongo-uri-orders>
-  MONGO_URI_PAYMENTS: <base64-encoded-mongo-uri-payments>
-  JWT_KEY: <base64-encoded-jwt-key>
-  RABBITMQ_URL: <base64-encoded-rabbitmq-url>
-  REDIS_HOST: <base64-encoded-redis-host>
-Ensure all sensitive data is base64 encoded.
-
-5. Running the Application
+6. Running the Application
 Start the application with Skaffold:At the root directory of the project, run:
 skaffold dev
 Access the Application:Open your browser and navigate to:
