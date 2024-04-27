@@ -32,7 +32,7 @@ Follow these steps to run the project locally:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/k-hotels.git
+   git@github.com:kingsleyoha1/k-hotels.git
 
 2. Set up Ingress-Nginx:Apply the ingress-nginx controller to enable ingress management in Kubernetes:
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
