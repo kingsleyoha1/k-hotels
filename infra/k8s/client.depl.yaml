@@ -19,6 +19,17 @@ spec:
       containers:
         - name: client
           image: kingsley555/hotels-client
+          env:
+            - name: NEW_RELIC_LICENSE_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: hotels-configmap
+                  key: NEW_RELIC_LICENSE_KEY
+            - name: NEW_RELIC_APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: hotels-configmap
+                  key: NEW_RELIC_APP_NAME 
 ---
 apiVersion: v1
 kind: Service

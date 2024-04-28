@@ -20,7 +20,6 @@ const NewHotel = () => {
     });
 
     const onSubmit = (event) => {
-        console.log('yes');
         event.preventDefault();
 
         doRequest();

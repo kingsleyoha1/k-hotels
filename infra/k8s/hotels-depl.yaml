@@ -52,7 +52,17 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: hotels-configmap
-                  key: CLOUDINARY_API_SECRET      
+                  key: CLOUDINARY_API_SECRET
+            - name: NEW_RELIC_LICENSE_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: hotels-configmap
+                  key: NEW_RELIC_LICENSE_KEY
+            - name: NEW_RELIC_APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: hotels-configmap
+                  key: NEW_RELIC_APP_NAME          
 ---
 apiVersion: v1
 kind: Service

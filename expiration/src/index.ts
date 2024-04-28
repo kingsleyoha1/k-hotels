@@ -1,4 +1,4 @@
-
+import 'newrelic';
 import { rabbitMQWrapper } from './rabbitmq-wrapper';
 import { OrderCreatedListener } from './events/listeners/order-created-listener';
 

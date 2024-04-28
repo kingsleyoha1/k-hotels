@@ -1,6 +1,7 @@
 # K-Hotels
 
 K-Hotels is a full-featured hotel application that uses a microservices architecture. The application is organized using a monorepo pattern, containing all services within a single repository. 
+I used newrelic for analysis and performance monitoring of the applications
 
 ## Services
 
@@ -53,6 +54,8 @@ Create a config folder inside the infra/k8s directory and add the following conf
         CLOUDINARY_API_KEY: <your-cloudinary-api-key>
         CLOUDINARY_API_SECRET: <your-cloudinary-api-secret>
         STRIPE_KEY: <your-stripe-key>
+        NEW_RELIC_LICENSE_KEY: <your-newrelic-secret>
+        NEW_RELIC_APP_NAME: <your-newrelice-appname>
       Replace placeholders with your Cloudinary and Stripe credentials.
       4.2 Secrets (secret.yaml):
       apiVersion: v1
