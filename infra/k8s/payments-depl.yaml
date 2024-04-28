@@ -43,6 +43,16 @@ spec:
                 configMapKeyRef:
                   name: hotels-configmap
                   key: STRIPE_KEY
+            - name: NEW_RELIC_LICENSE_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: hotels-configmap
+                  key: NEW_RELIC_LICENSE_KEY
+            - name: NEW_RELIC_APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: hotels-configmap
+                  key: NEW_RELIC_APP_NAME       
 
 ---
 apiVersion: v1

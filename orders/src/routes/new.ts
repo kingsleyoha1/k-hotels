@@ -41,7 +41,7 @@ router.post(
 
     // Make sure that this room is not already reserved
     const isReserved = await room.isReserved();
-    if (isReserved) {
+    if (isReserved && room) {
       throw new BadRequestError('Room is already reserved');
     }
 
