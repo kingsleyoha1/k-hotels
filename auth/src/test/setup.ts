@@ -16,7 +16,7 @@ beforeAll(async () => {
   process.env.JWT_KEY = 'asdfasdf';
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-  mongo = new MongoMemoryServer();
+  const mongo = new MongoMemoryServer({});
   await mongo.start()
   const mongoUri = await mongo.getUri();
 
@@ -32,7 +32,7 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await mongo.stop();
+  await mongo?.stop();
   await mongoose.connection.close();
 });
 
