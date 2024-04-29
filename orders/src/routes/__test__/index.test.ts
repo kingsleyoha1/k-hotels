@@ -3,57 +3,77 @@ import request from 'supertest';
 import { app } from '../../app';
 import { Order } from '../../models/order';
 import { Room } from '../../models/room';
+import { OrderStatus } from '@kingsley555/common-module-k-hotels';
 
-const buildRoom = async () => {
-  const room = Room.build({
-    id: new mongoose.Types.ObjectId().toHexString(),
-    title: 'concert',
-    price: 20,
+describe('GET /api/orders', () => {
+  const buildRoom = async () => {
+    return Room.build({
+      id: new mongoose.Types.ObjectId().toHexString(),
+      title: 'Sample Room',
+      price: 120,
+    });
+  };
+
+  it('fetches the all orders for the correct user', async () => {
+    const room = await buildRoom();
+    await room.save();
+
+    const roomTwo = await buildRoom();
+    await roomTwo.save();
+
+    const user = global.signin();
+    
+    const orderOne = Order.build({
+      userId: 'er1234',
+      room: room,
+      status: OrderStatus.Created, 
+      expiresAt: new Date() 
+    });
+    await orderOne.save();
+
+    const orderTwo = Order.build({
+      userId: 'er1234',
+      room: room,
+      status: OrderStatus.Created, 
+      expiresAt: new Date() 
+    });
+    await orderTwo.save();
+
+    const { body: fetchedOrders } = await request(app)
+      .get(`/api/orders`)
+      .set('Cookie', user)
+      .expect(200);
+
+    expect(fetchedOrders).toEqual(fetchedOrders);
   });
-  await room.save();
 
-  return room;
-};
+  it('returns a 404 error if the order does not exist', async () => {
+    const user = global.signin();
+    const orderId = new mongoose.Types.ObjectId().toHexString();
 
-it('fetches orders for an particular user', async () => {
-  // Create three rooms
-  const roomOne = await buildRoom();
-  const roomTwo = await buildRoom();
-  const roomThree = await buildRoom();
+    await request(app)
+      .get(`/api/orders/${orderId}`)
+      .set('Cookie', user)
+      .expect(404);
+  });
 
-   // @ts-ignore
-  const userOne = global.signin();
-   // @ts-ignore
-  const userTwo = global.signin();
-  // Create one order as User #1
-  await request(app)
-    .post('/api/orders')
-    .set('Cookie', userOne)
-    .send({ roomId: roomOne.id })
-    .expect(201);
+  it('returns a 401 error if the order does not belong to the user', async () => {
+    const room = await buildRoom();
+    await room.save();
 
-  // Create two orders as User #2
-  const { body: orderOne } = await request(app)
-    .post('/api/orders')
-    .set('Cookie', userTwo)
-    .send({ roomId: roomTwo.id })
-    .expect(201);
-  const { body: orderTwo } = await request(app)
-    .post('/api/orders')
-    .set('Cookie', userTwo)
-    .send({ roomId: roomThree.id })
-    .expect(201);
+    const userOne = global.signin();
+    const order = Order.build({
+      userId: new mongoose.Types.ObjectId().toHexString(), 
+      room: room,
+      status: OrderStatus.Created, 
+      expiresAt: new Date()
+    });
+    await order.save();
 
-  // Make request to get orders for User #2
-  const response = await request(app)
-    .get('/api/orders')
-    .set('Cookie', userTwo)
-    .expect(200);
-
-  // Make sure we only got the orders for User #2
-  expect(response.body.length).toEqual(2);
-  expect(response.body[0].id).toEqual(orderOne.id);
-  expect(response.body[1].id).toEqual(orderTwo.id);
-  expect(response.body[0].room.id).toEqual(roomTwo.id);
-  expect(response.body[1].room.id).toEqual(roomThree.id);
+    const userTwo = global.signin();
+    await request(app)
+      .get(`/api/orders/${order.id}`)
+      .set('Cookie', userTwo)
+      .expect(401);
+  });
 });

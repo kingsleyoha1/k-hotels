@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const LandingPage = ({ hotels }) => {
+const LandingPage = ({ hotels, currentUser }) => {
     const hotelList = hotels.map((hotel) => (
         <div key={hotel.id} className="col-lg-4 col-md-6 mb-4">
             <div className="card h-100">
@@ -13,11 +13,14 @@ const LandingPage = ({ hotels }) => {
                         </div>
                     </div>
                 </Link>
-                <div className="card-footer border-top-0 bg-white">
-                    <Link href={`/hotels/${hotel.id}/room`}>
-                        <div className="btn btn-primary w-100">Create Room</div>
-                    </Link>
-                </div>
+                {currentUser
+                && (
+                    <div className="card-footer border-top-0 bg-white">
+                        <Link href={`/hotels/${hotel.id}/room`}>
+                            <div className="btn btn-primary w-100">Create Room</div>
+                        </Link>
+                    </div>
+                )}
             </div>
         </div>
     ));
