@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 
-const HotelShow = ({ hotel }) => {
+const HotelShow = ({ hotel, currentUser }) => {
     const [rooms, setRooms] = useState(hotel.room);
 
     const handleDelete = async (roomId) => {
@@ -24,7 +24,14 @@ const HotelShow = ({ hotel }) => {
                     <Link href="/hotels/room/[roomId]" as={`/hotels/room/${rm.id}`}>
                         <div className="btn btn-primary">View Room</div>
                     </Link>
-                    <div className="btn btn-danger" onClick={() => handleDelete(rm.id)}>Delete Room</div>
+                    {currentUser
+                     && (
+                         <div
+                             className="btn btn-danger"
+                             onClick={() => handleDelete(rm.id)}
+                         >Delete Room
+                         </div>
+                     )}
                 </div>
             </div>
         </div>
